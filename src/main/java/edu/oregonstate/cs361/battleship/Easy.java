@@ -50,6 +50,10 @@ public class Easy extends BattleshipModel{
         computer_fisher = new CivilianShip("Computer_Fisher", 2, new Coordinate(9, 1), new Coordinate(10, 1));
     }
 
+    //place ships
+    public void computerplaceShips() {
+       
+  }
 
 
     /*The function will fire on every other tile. FIRST, it will cover 0 and even numbered tiles

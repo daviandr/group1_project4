@@ -12,6 +12,8 @@ import static spark.Spark.staticFiles;
 
 public class Main {
 
+    BattleshipModel bm;
+
     public static void main(String[] args) {
         staticFiles.location("/public");
 
@@ -26,23 +28,24 @@ public class Main {
     }
 
     //This function returns a new model
-    private static String newModel(Request req) {
+    public static String newModel(Request req) {
         String mode = req.params("mode");
-        BattleshipModel bm;
 
         // Choose mode
         if (mode.equals("Hard")){
-            bm = new Hard();
-        } else {
-            bm = new Easy();
+            Hard bm = new Hard();
+            Gson gson = new Gson();
+            return gson.toJson(bm);
         }
+
+        Easy bm = new Easy();
 
         Gson gson = new Gson();
         return gson.toJson(bm);
     }
 
     //This function accepts an HTTP request and deserializes it into an actual Java object.
-    private static BattleshipModel getModelFromReq(Request req){
+    private static Easy getModelFromReq(Request req){
         Gson gson = new Gson();
         String result = "";
         try {
@@ -50,23 +53,24 @@ public class Main {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return gson.fromJson(result, BattleshipModel.class);
+        return gson.fromJson(result, Easy.class);
     }
 
     //This controller
     private static String placeShip(Request req) {
-        BattleshipModel currModel = getModelFromReq(req);
+        Easy currModel = getModelFromReq(req);
         String id = req.params("id");
         String row = req.params("row");
         String col = req.params("col");
         String orientation = req.params("orientation");
-        currModel = currModel.placeShip(id,row,col,orientation);
+        currModel.placeShip(id,row,col,orientation);
+        currModel.computerplaceShips();
         Gson gson = new Gson();
         return gson.toJson(currModel);
     }
 
     private static String fireAt(Request req) {
-        BattleshipModel currModel = getModelFromReq(req);
+        Easy currModel = getModelFromReq(req);
 
         String row = req.params("row");
         String col = req.params("col");
@@ -82,13 +86,13 @@ public class Main {
 
     private static String scan(Request req) {
 
-        BattleshipModel currModel = getModelFromReq(req);
+        Easy currModel = getModelFromReq(req);
         String row = req.params("row");
         String col = req.params("col");
         int rowInt = Integer.parseInt(row);
         int colInt = Integer.parseInt(col);
         currModel.scan(rowInt,colInt);
-        currModel.shootAtPlayer();
+        //currModel.shootAtPlayer();
         Gson gson = new Gson();
         return gson.toJson(currModel);
     }
