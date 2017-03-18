@@ -12,6 +12,8 @@ import static spark.Spark.staticFiles;
 
 public class Main {
 
+    public BattleshipModel bm;
+
     public static void main(String[] args) {
         staticFiles.location("/public");
 
@@ -33,8 +35,11 @@ public class Main {
         // Choose mode
         if (mode.equals("Hard")){
             bm = new Hard();
+
         } else {
             bm = new Easy();
+
+
         }
 
         Gson gson = new Gson();

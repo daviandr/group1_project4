@@ -8,7 +8,7 @@ import java.util.StringJoiner;
  */
 public class Easy extends BattleshipModel{
     //place ships
-    private String[] shipName = {"aircraftCarrier", "battleship", "submarine", "dhingy", "clipper", "fisher"};
+    private String[] shipName = {"submarine", "dhingy", "clipper", "fisher"};
 
     private int convertToInt(){
 
