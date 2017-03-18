@@ -12,6 +12,8 @@ import static spark.Spark.staticFiles;
 
 public class Main {
 
+    BattleshipModel bm;
+
     public static void main(String[] args) {
         staticFiles.location("/public");
 
@@ -26,7 +28,7 @@ public class Main {
     }
 
     //This function returns a new model
-    private static String newModel(Request req) {
+    public static String newModel(Request req) {
         String mode = req.params("mode");
 
         // Choose mode
@@ -43,7 +45,7 @@ public class Main {
     }
 
     //This function accepts an HTTP request and deserializes it into an actual Java object.
-    private static Hard getModelFromReq(Request req){
+    private static Easy getModelFromReq(Request req){
         Gson gson = new Gson();
         String result = "";
         try {
@@ -51,12 +53,12 @@ public class Main {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return gson.fromJson(result, Hard.class);
+        return gson.fromJson(result, Easy.class);
     }
 
     //This controller
     private static String placeShip(Request req) {
-        Hard currModel = getModelFromReq(req);
+        Easy currModel = getModelFromReq(req);
         String id = req.params("id");
         String row = req.params("row");
         String col = req.params("col");
@@ -68,7 +70,7 @@ public class Main {
     }
 
     private static String fireAt(Request req) {
-        Hard currModel = getModelFromReq(req);
+        Easy currModel = getModelFromReq(req);
 
         String row = req.params("row");
         String col = req.params("col");
@@ -84,7 +86,7 @@ public class Main {
 
     private static String scan(Request req) {
 
-        Hard currModel = getModelFromReq(req);
+        Easy currModel = getModelFromReq(req);
         String row = req.params("row");
         String col = req.params("col");
         int rowInt = Integer.parseInt(row);
